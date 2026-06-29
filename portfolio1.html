@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>10 Portfolio Styles - Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+    * { font-family: 'Inter', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== SLIDER STYLES ===== */
+    .slider-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      max-height: 700px;
+      overflow: hidden;
+      background: #0f0f1a;
+    }
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: all 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+      transform: scale(0.95);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+      z-index: 10;
+    }
+    .slide-content {
+      width: 100%;
+      max-width: 1100px;
+      height: 85%;
+      border-radius: 30px;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    }
+
+    /* Slide Navigation */
+    .slider-nav {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      display: flex;
+      gap: 12px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(20px);
+      padding: 12px 24px;
+      border-radius: 60px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .slider-nav button {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3);
+      background: transparent;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+    .slider-nav button.active {
+      background: white;
+      border-color: white;
+      transform: scale(1.3);
+    }
+    .slider-nav button:hover {
+      border-color: white;
+      transform: scale(1.2);
+    }
+
+    .slide-arrows {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 40;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      font-size: 22px;
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slide-arrows:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.1);
+    }
+    .slide-arrows.prev { left: 20px; }
+    .slide-arrows.next { right: 20px; }
+
+    /* Slide Labels */
+    .slide-label {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+      padding: 8px 20px;
+      border-radius: 30px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      border: 1px solid rgba(255,255,255,0.1);
+      z-index: 20;
+    }
+    .slide-number {
+      position: absolute;
+      bottom: 100px;
+      right: 40px;
+      font-size: 80px;
+      font-weight: 900;
+      opacity: 0.06;
+      color: white;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ===== 10 UNIQUE STYLES ===== */
+
+    /* STYLE 1: NEON GLOW */
+    .style-neon {
+      background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+      border: 2px solid rgba(0,255,255,0.3);
+      box-shadow: 0 0 60px rgba(0,255,255,0.1);
+    }
+    .style-neon h2 { color: #00ffff; text-shadow: 0 0 30px rgba(0,255,255,0.5); }
+    .style-neon .tag { background: rgba(0,255,255,0.15); border: 1px solid #00ffff; color: #00ffff; }
+
+    /* STYLE 2: GLASSMORPHISM */
+    .style-glass {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(40px);
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    }
+    .style-glass h2 { color: white; }
+    .style-glass .tag { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); color: white; }
+
+    /* STYLE 3: MINIMAL WHITE */
+    .style-minimal {
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+    }
+    .style-minimal h2 { color: #111; }
+    .style-minimal .tag { background: #f5f5f5; color: #333; border: 1px solid #ddd; }
+
+    /* STYLE 4: DARK BOLD */
+    .style-dark {
+      background: linear-gradient(145deg, #0d0d0d, #1c1c1c);
+      border: 1px solid #2a2a2a;
+    }
+    .style-dark h2 { color: #fff; }
+    .style-dark .tag { background: #2a2a2a; color: #fff; border: 1px solid #444; }
+
+    /* STYLE 5: GRADIENT VIBE */
+    .style-gradient {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%);
+    }
+    .style-gradient h2 { color: white; text-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+    .style-gradient .tag { background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); color: white; }
+
+    /* STYLE 6: RETRO/NOSTALGIA */
+    .style-retro {
+      background: linear-gradient(45deg, #f5af19, #f12711);
+    }
+    .style-retro h2 { color: #fff; font-family: 'Courier New', monospace; }
+    .style-retro .tag { background: #000; color: #f5af19; border: 2px solid #f5af19; }
+
+    /* STYLE 7: CORPORATE/CLASSY */
+    .style-corporate {
+      background: #f8f9fe;
+      border: 1px solid #d0d7e6;
+    }
+    .style-corporate h2 { color: #1a2332; }
+    .style-corporate .tag { background: #1a2332; color: white; }
+
+    /* STYLE 8: CREATIVE/ARTISTIC */
+    .style-creative {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    }
+    .style-creative h2 { color: #2d1b3d; }
+    .style-creative .tag { background: #2d1b3d; color: #fcb69f; }
+
+    /* STYLE 9: TECH/Sci-Fi */
+    .style-tech {
+      background: #0a0e1a;
+      border: 1px solid #00ff88;
+      box-shadow: 0 0 80px rgba(0,255,136,0.05);
+    }
+    .style-tech h2 { color: #00ff88; text-shadow: 0 0 40px rgba(0,255,136,0.3); }
+    .style-tech .tag { background: rgba(0,255,136,0.1); border: 1px solid #00ff88; color: #00ff88; }
+
+    /* STYLE 10: BOHEMIAN/WARM */
+    .style-bohemian {
+      background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+    }
+    .style-bohemian h2 { color: #4a3520; }
+    .style-bohemian .tag { background: #4a3520; color: #fdfcfb; }
+
+    /* Common slide elements */
+    .slide-content h2 { font-size: 3.2rem; font-weight: 900; margin-bottom: 10px; }
+    .slide-content .sub { font-size: 1.2rem; opacity: 0.8; margin-bottom: 20px; }
+    .slide-content .tags { display: flex; gap: 10px; flex-wrap: wrap; }
+    .slide-content .tag { padding: 8px 20px; border-radius: 30px; font-size: 0.9rem; font-weight: 600; }
+    .slide-content .preview-btn {
+      margin-top: 25px;
+      padding: 14px 35px;
+      border-radius: 50px;
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      background: white;
+      color: #111;
+      width: fit-content;
+    }
+    .slide-content .preview-btn:hover { transform: scale(1.05); }
+    .slide-content .style-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .slide-content { padding: 30px; height: 90%; }
+      .slide-content h2 { font-size: 2rem; }
+      .slide-arrows { width: 40px; height: 40px; font-size: 16px; }
+      .slide-arrows.prev { left: 10px; }
+      .slide-arrows.next { right: 10px; }
+      .slider-nav { padding: 8px 16px; gap: 8px; bottom: 15px; }
+      .slider-nav button { width: 10px; height: 10px; }
+      .slide-number { font-size: 40px; bottom: 70px; right: 20px; }
+      .slide-label { font-size: 11px; top: 15px; right: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ====== TOP: 10 SLIDES ====== -->
+  <section class="slider-container" id="slider">
+
+    <!-- SLIDE 1: NEON -->
+    <div class="slide active style-neon" data-index="0">
+      <div class="slide-content">
+        <span class="slide-label">🔥 NEON GLOW</span>
+        <span class="slide-number">01</span>
+        <div class="style-icon">💜</div>
+        <h2>Neon <br/>Portfolio</h2>
+        <p class="sub">Cyberpunk vibe with glowing effects</p>
+        <div class="tags">
+          <span class="tag">#Cyber</span>
+          <span class="tag">#Glow</span>
+          <span class="tag">#Future</span>
+        </div>
+        <button class="preview-btn" onclick="openForm()">✨ Get This Style</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: GLASSMORPHISM -->
+    <div class="slide style-glass" data-index="1">
+      <div class="slide-content">
+        <span class="slide-label">✨ GLASSMORPHISM</span>
+        <span class="slide-number">02</span>
+        <div class="style-icon">🔮</div>
+        <h2>Glass <br/>Portfolio</h2>
+        <p class="sub">Frosted glass, modern & elegant</p>
+        <div class="tags">
+          <span class="tag">#Glass</span>
+          <span class="tag">#Modern</span>
+          <span class="tag">#Premium</span>
+        </div>
+        <button class="preview-btn" onclick="openForm()">✨ Get This Style</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: MINIMAL -->
+    <div class="slide style-minimal" data-index="2">
+      <div class="slide-content">
+        <span class="slide-label">⬜ MINIMAL</span>
+        <span class="slide-number">03</span>
+        <div class="style-icon">◻️</div>
+        <h2>Minimal <br/>Portfolio</h2>
+        <p class="sub">Clean, airy & distraction-free</p>
+        <div class="tags">
+          <span class="tag">#Clean</span>
+          <span class="tag">#White</span>
+          <span class="tag">#Simple</span>
+        </div>
+        <button class="preview-btn" onclick="openForm()">✨ Get This Style</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: DARK BOLD -->
+    <div class="slide style-dark" data-index="3">
+      <div class="slide-content">
+        <span class="slide-label">⚫ DARK BOLD</span>
+        <span class="slide-number">04</span>
+        <div class="style-icon">🌙</div>
+        <h2>Dark <br/>Portfolio</h2>
+        <p class="sub">Bold, mysterious & powerful</p>
+        <div class="tags">
+          <span class="tag">#Dark</span>
+          <span class="tag">#Bold</span>
+          <span class="tag">#Premium</span>
+        </div>
+        <button class="preview-btn" onclick="openForm()">✨ Get This Style</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: GRADIENT VIBE -->
+    <div class="slide style-gradient" data-index="4">
+      <div class="slide-content">
+        <span class="slide-label">🌈 GRADIENT VIBE</span>
+        <span class="slide-number">05</span>
+        <div class="style-icon">🎨</div>
+        <h2>Gradient <br/>Portfolio</h2>
+        <p class="sub">Colorful, energetic & vibrant</p>
+        <div class="tags">
+          <span class="tag">#Colorful</span>
+          <span class="tag">#Vibrant</span>
+          <span class="tag">#Creative</span>
+        </div>
+        <button class="preview-btn" onclick="openForm()">✨ Get This Style</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: RETRO -->
+    <div class="slide style-retro" data-index="5">
+      <div class="slide-content">
+        <span class="slide-label">📼 RETRO</span>
+        <span class="slide-number">06</span>
+        <div class="style-icon">🕹️</div>
+        <h2>Retro <br/>Portfolio</h2>
+        <p class="sub">Nostalgic, vintage & groovy</p>
+        <div class="tags">
+          <span class="tag">#Retro</span>
+          <span class="tag">#Vintage</span>
+          <span class="tag">#Groovy</span>
+        </div>
+        <button class="preview-btn" onclick="openForm()">✨ Get This Style</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: CORPORATE -->
+    <div class="slide style-corporate" data-index="6">
+      <div class="slide-content">
+        <span class="slide-label">💼 CORPORATE</span>
+        <span class="slide-number">07</span>
+        <div class="style-icon">🏢</div>
+        <h2>Corporate <br/>Portfolio</h2>
+        <p class="sub">Professional, trust & authority</p>
+        <div class="tags">
+          <span class="tag">#Corporate</span>
+          <span class="tag">#Professional</span>
+          <span class="tag">#Trust</span>
+        </div>
+        <button class="preview-btn" onclick="openForm()">✨ Get This Style</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: CREATIVE -->
+    <div class="slide style-creative" data-index="7">
+      <div class="slide-content">
+        <span class="slide-label">🎭 CREATIVE</span>
+        <span class="slide-number">08</span>
+        <div class="style-icon">🖌️</div>
+        <h2>Creative <br/>Portfolio</h2>
+        <p class="sub">Artistic, unique & expressive</p>
+        <div class="tags">
+          <span class="tag">#Artistic</span>
+          <span class="tag">#Unique</span>
+          <span class="tag">#Expressive</span>
+        </div>
+        <button class="preview-btn" onclick="openForm()">✨ Get This Style</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: TECH -->
+    <div class="slide style-tech" data-index="8">
+      <div class="slide-content">
+        <span class="slide-label">💻 TECH</span>
+        <span class="slide-number">09</span>
+        <div class="style-icon">⚡</div>
+        <h2>Tech <br/>Portfolio</h2>
+        <p class="sub">Sci-fi, futuristic & geeky</p>
+        <div class="tags">
+          <span class="tag">#Tech</span>
+          <span class="tag">#SciFi</span>
+          <span class="tag">#Future</span>
+        </div>
+        <button class="preview-btn" onclick="openForm()">✨ Get This Style</button>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: BOHEMIAN -->
+    <div class="slide style-bohemian" data-index="9">
+      <div class="slide-content">
+        <span class="slide-label">🌿 BOHEMIAN</span>
+        <span class="slide-number">10</span>
+        <div class="style-icon">🌸</div>
+        <h2>Bohemian <br/>Portfolio</h2>
+        <p class="sub">Warm, earthy & free-spirited</p>
+        <div class="tags">
+          <span class="tag">#Bohemian</span>
+          <span class="tag">#Warm</span>
+          <span class="tag">#Organic</span>
+        </div>
+        <button class="preview-btn" onclick="openForm()">✨ Get This Style</button>
+      </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button class="slide-arrows prev" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+    <button class="slide-arrows next" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
+
+    <!-- Dot Navigation -->
+    <div class="slider-nav" id="sliderNav"></div>
+  </section>
+
+  <!-- ====== BELOW: HUB CONTENT ====== -->
+  
+  <!-- FEATURES -->
+  <section class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <h3 class="text-4xl font-bold text-center">✨ Har Style Mein Yeh Features Hain</h3>
+      <div class="grid md:grid-cols-3 gap-8 mt-12">
+        <div class="text-center p-8 border rounded-3xl hover:shadow-xl transition">
+          <i class="fas fa-mobile-alt text-4xl text-purple-600 mb-4"></i>
+          <h5 class="font-bold text-xl">Responsive</h5>
+          <p class="text-gray-500">Har device pe perfect dikhega</p>
+        </div>
+        <div class="text-center p-8 border rounded-3xl hover:shadow-xl transition">
+          <i class="fas fa-bolt text-4xl text-purple-600 mb-4"></i>
+          <h5 class="font-bold text-xl">Lightning Fast</h5>
+          <p class="text-gray-500">Optimized for speed & SEO</p>
+        </div>
+        <div class="text-center p-8 border rounded-3xl hover:shadow-xl transition">
+          <i class="fas fa-palette text-4xl text-purple-600 mb-4"></i>
+          <h5 class="font-bold text-xl">10 Unique Styles</h5>
+          <p class="text-gray-500">Apni personality ke hisaab se choose karo</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h3 class="text-4xl font-bold">💰 Pricing</h3>
+      <div class="bg-white p-10 rounded-3xl shadow-2xl mt-10 max-w-md mx-auto border-2 border-purple-200">
+        <p class="text-gray-400 line-through text-xl">₹19,999</p>
+        <p class="text-6xl font-extrabold text-purple-600">₹1,999</p>
+        <p class="text-gray-500 mt-2">One-time — Lifetime access</p>
+        <ul class="text-left mt-8 space-y-4">
+          <li><i class="fas fa-check-circle text-green-500 mr-3"></i>Complete Portfolio Website</li>
+          <li><i class="fas fa-check-circle text-green-500 mr-3"></i>10 Unique Style Options</li>
+          <li><i class="fas fa-check-circle text-green-500 mr-3"></i>Source Code Included</li>
+          <li><i class="fas fa-check-circle text-green-500 mr-3"></i>Free Hosting Setup Guide</li>
+          <li><i class="fas fa-check-circle text-green-500 mr-3"></i>1 Month Support</li>
+        </ul>
+        <button onclick="openForm()" class="mt-8 bg-gradient-to-r from-purple-600 to-blue-500 text-white px-12 py-4 rounded-full text-lg font-bold w-full hover:scale-105 transition">
+          <i class="fas fa-shopping-cart mr-2"></i>Order Now
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM -->
+  <section id="contact" class="py-20 bg-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h3 class="text-4xl font-bold text-center">📩 Apna Style Choose Karo</h3>
+      <p class="text-gray-500 text-center mb-10">Form bharo, hum 24 ghante mein contact karenge</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-white py-8 text-center">
+    <p>© 2026 PortfolioHub — 10 Styles, 1 Platform</p>
+    <div class="flex justify-center gap-6 mt-4">
+      <a href="#" class="hover:text-purple-400"><i class="fab fa-instagram text-2xl"></i></a>
+      <a href="#" class="hover:text-purple-400"><i class="fab fa-youtube text-2xl"></i></a>
+      <a href="#" class="hover:text-purple-400"><i class="fab fa-twitter text-2xl"></i></a>
+    </div>
+  </footer>
+
+  <!-- ====== JAVASCRIPT ====== -->
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const navContainer = document.getElementById('sliderNav');
+
+    // Create dots
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('button');
+      dot.classList.add(i === 0 ? 'active' : '');
+      dot.dataset.index = i;
+      dot.addEventListener('click', () => goToSlide(i));
+      navContainer.appendChild(dot);
+    }
+
+    function goToSlide(index) {
+      slides.forEach(s => s.classList.remove('active'));
+      slides[index].classList.add('active');
+      document.querySelectorAll('.slider-nav button').forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+      });
+      currentSlide = index;
+    }
+
+    function changeSlide(direction) {
+      let newIndex = currentSlide + direction;
+      if (newIndex < 0) newIndex = totalSlides - 1;
+      if (newIndex >= totalSlides) newIndex = 0;
+      goToSlide(newIndex);
+    }
+
+    // Auto-slide every 4 seconds
+    let autoSlide = setInterval(() => changeSlide(1), 4000);
+
+    // Pause on hover
+    const slider = document.getElementById('slider');
+    slider.addEventListener('mouseenter', () => clearInterval(autoSlide));
+    slider.addEventListener('mouseleave', () => {
+      autoSlide = setInterval(() => changeSlide(1), 4000);
+    });
+
+    // Keyboard arrows
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') changeSlide(-1);
+      if (e.key === 'ArrowRight') changeSlide(1);
+    });
+
+    // Open contact form
+    function openForm() {
+      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    }
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+
+</body>
+</html>
