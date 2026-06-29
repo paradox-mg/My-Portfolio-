@@ -58,7 +58,12 @@
             <div class="hero-image">
                 <div class="image-wrapper">
                     <div class="image-border-animation"></div>
-                    <img loading="lazy" decoding="async" src="images/profile1.jpg" alt="Profile Photo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22><rect fill=%22%234a3aff%22 width=%22300%22 height=%22300%22/><text x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22>Photo</text></svg>'">
+                    <img 
+  srcset="images/IMG_small.webp 515w, images/IMG_large.webp 1310w"
+  sizes="(max-width: 600px) 515px, 1310px"
+  src="images/IMG_large.webp" 
+  alt="About Me"
+  loading="lazy">
                 </div>
                 <div class="floating-badge badge-1">
                     <i class="fas fa-code"></i> Developer
