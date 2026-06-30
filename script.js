@@ -162,53 +162,48 @@ document.querySelectorAll('.project-card, .contact-card, .skill-item').forEach(e
     observer.observe(el);
 });
 
-// ========== CONTACT FORM AJAX ==========
-const contactForm = document.getElementById('contactForm');
-const formMessage = document.getElementById('formMessage');
+// ========== CONTACT FORM WHATSAPP ==========
+const contactForm = document.getElementById("contactForm");
+const formMessage = document.getElementById("formMessage");
 
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener("submit", function (e) {
         e.preventDefault();
-        
-        const formData = new FormData(this);
-        const submitBtn = this.querySelector('.submit-btn');
-        const btnText = submitBtn.querySelector('span');
-        
-        // Show loading
-        btnText.textContent = 'Sending...';
-        submitBtn.disabled = true;
-        
-        fetch('contact.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-            formMessage.className = 'form-message success';
-            formMessage.textContent = '✅ Message sent successfully!';
-            formMessage.style.display = 'block';
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const subject = document.getElementById("subject").value;
+        const message = document.getElementById("message").value;
+
+        const phone = "+919795912361"; // Apna WhatsApp Number
+
+        const text =
+`*📩 New Contact Form*
+
+👤 Name: ${name}
+📧 Email: ${email}
+📝 Subject: ${subject}
+💬 Message: ${message}`;
+
+        formMessage.className = "form-message success";
+        formMessage.textContent = "✅ Opening WhatsApp...";
+        formMessage.style.display = "block";
+
+        setTimeout(() => {
+            window.open(
+                `https://wa.me/${phone}?text=${encodeURIComponent(text)}`,
+                "_blank"
+            );
+
             contactForm.reset();
-            
+
             setTimeout(() => {
-                formMessage.style.display = 'none';
-            }, 5000);
-        })
-        .catch(error => {
-            formMessage.className = 'form-message error';
-            formMessage.textContent = '❌ Error sending message. Please try again.';
-            formMessage.style.display = 'block';
-            
-            setTimeout(() => {
-                formMessage.style.display = 'none';
-            }, 5000);
-        })
-        .finally(() => {
-            btnText.textContent = 'Send Message';
-            submitBtn.disabled = false;
-        });
+                formMessage.style.display = "none";
+            }, 3000);
+
+        }, 500);
     });
 }
-
 // ========== SMOOTH PARALLAX EFFECT ON HERO ==========
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
